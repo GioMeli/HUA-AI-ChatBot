@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const chatRoutes = require("./Chat"); // Ensure this path is correct
+const chatRoutes = require("./chat"); // Ensure this path is correct
 
 dotenv.config();
 
