@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./styles.css"; // Make sure this file exists
+import "./styles.css"; // Ensure this file exists
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -10,24 +10,24 @@ const App = () => {
     if (!message.trim()) return;
 
     const userMessage = { sender: "You", text: message };
-    setChat((prevChat) => [...prevChat, userMessage]); // Proper state update
+    setChat((prevChat) => [...prevChat, userMessage]); // Append user message
+
+    setMessage(""); // Clear input immediately
 
     try {
       const { data } = await axios.post("http://localhost:5000/api/chat", { message });
       const botMessage = { sender: "Bot", text: data.reply };
-      setChat((prevChat) => [...prevChat, userMessage, botMessage]);
+      setChat((prevChat) => [...prevChat, botMessage]); // Append bot message correctly
     } catch (error) {
       console.error("Error:", error);
-      const errorMessage = { sender: "Bot", text: "Sorry, I couldn't process that request." };
-      setChat((prevChat) => [...prevChat, userMessage, errorMessage]);
+      setChat((prevChat) => [...prevChat, { sender: "Bot", text: "Sorry, something went wrong." }]);
     }
-
-    setMessage("");
   };
 
   return (
     <div className="chat-container">
       <header className="chat-header">🤖 AI HUA Chatbot</header>
+
       <div className="chat-box">
         {chat.map((msg, index) => (
           <div key={index} className={`message ${msg.sender === "You" ? "user" : "bot"}`}>
@@ -35,6 +35,7 @@ const App = () => {
           </div>
         ))}
       </div>
+
       <div className="chat-input">
         <input
           type="text"
