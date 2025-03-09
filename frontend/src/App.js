@@ -15,7 +15,7 @@ const App = () => {
     setMessage(""); // Clear input immediately
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/chat", { message });
+      const { data } = await axios.post("http://localhost:5000/api/routes/chat", { message });
       const botMessage = { sender: "Bot", text: data.reply };
       setChat((prevChat) => [...prevChat, botMessage]); // Append bot message correctly
     } catch (error) {
